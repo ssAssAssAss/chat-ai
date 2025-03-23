@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Example</title>
+</head>
+<body>
+  <h1>Задайте вопрос</h1>
+  <input type="text" id="questionInput" placeholder="Введите ваш вопрос">
+  <button onclick="getAnswer()">Получить ответ</button>
+
+  <h2>Ответ:</h2>
+  <p id="answer"></p>
+
+  <script>
+    async function getAnswer() {
+      const question = document.getElementById('questionInput').value;
+      const apiKey = 'sk-252d36d8ce8846d7987de23404e634a1'; // Замените на ваш API-ключ
+      const apiUrl = 'https://api.deepseek.com/v3/ask'; // Замените на URL API
+
+      try {
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({ question: question })
+        });
+
+        if (!response.ok) {
+          throw new Error('Ошибка при запросе к API');
+        }
+
+        const data = await response.json();
+        document.getElementById('answer').textContent = data.answer; // Предположим, что ответ находится в поле `answer`
+      } catch (error) {
+        console.error('Ошибка:', error);
+        document.getElementById('answer').textContent = 'Произошла ошибка при получении ответа.';
+      }
+    }
+  </script>
+</body>
+</html>
