@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DeepSeek API Test</title>
+</head>
+<body>
+  <h1>Тест API DeepSeek</h1>
+  <button onclick="testAPI()">Запустить тест</button>
+
+  <script>
+    async function testAPI() {
+      const apiKey = 'sk-41040a9e3c81480d92917289e742fbcc'; // Ваш API-ключ
+      const apiUrl = 'https://api.deepseek.com/v3/ask'; // Замените на реальный URL API
+
+      try {
+        // Отправляем запрос к API
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({ question: 'Привет, как дела?' })
+        });
+
+        // Проверяем статус ответа
+        if (!response.ok) {
+          throw new Error(`Ошибка: ${response.status} ${response.statusText}`);
+        }
+
+        // Получаем данные из ответа
+        const data = await response.json();
+        console.log('Ответ от API:', data);
+      } catch (error) {
+        console.error('Ошибка при запросе к API:', error);
+      }
+    }
+  </script>
+</body>
+</html>
